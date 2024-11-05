@@ -2,6 +2,7 @@ package com.app.adventureone;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
@@ -19,13 +20,15 @@ public class Player extends Entity {
     private String direction = "down";
     private Goblin goblin;
     private Sword sword;
+    private Hole hole;
     public ArrayList<String> inventory;
 
 
-    public Player(TextureAtlas atlas, Vector2 position, int size, Rectangle rect, Goblin goblin, int hp, int strength, Sword sword) {
+    public Player(TextureAtlas atlas, Vector2 position, int size, Rectangle rect, Goblin goblin, int hp, int strength, Sword sword, Hole hole) {
         super(atlas, "hero", position, size, rect, hp, strength);
         this.goblin = goblin;
         this.sword = sword;
+        this.hole = hole;
 
         inventory = new ArrayList<>();
     }
@@ -111,6 +114,13 @@ public class Player extends Entity {
                 inventory.add("Sword");
                 sword.sprite.setAlpha(0);
             }
+        }
+
+        if (rect.overlaps(hole.rect)) {
+            Gdx.gl.glClearColor(0, 0, 0, 1f);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            sword.sprite.setAlpha(0);
+            goblin.sprite.setAlpha(0);
         }
     }
 

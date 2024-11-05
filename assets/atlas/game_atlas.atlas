@@ -1,10 +1,19 @@
 game_atlas.png
 size:512,256
 repeat:none
+fire
+index: 0
+bounds:266,134,64,64
+fire
+index: 1
+bounds:398,68,64,64
+fire
+index: 2
+bounds:68,2,64,64
 goblin
-bounds:134,68,64,64
+bounds:134,2,64,64
 goblin_dead
-bounds:200,68,64,64
+bounds:266,68,64,64
 hero
 bounds:2,68,64,64
 hero_backwards
@@ -14,22 +23,24 @@ bounds:68,68,64,64
 hero_backwards_walking_right
 bounds:68,134,64,64
 hero_facing_left
-bounds:134,2,64,64
-hero_facing_right
 bounds:200,2,64,64
+hero_facing_right
+bounds:266,2,64,64
 hero_facing_right_with_sword
 bounds:2,2,64,64
 hero_fighting
-bounds:332,134,64,64
+bounds:398,134,64,64
 hero_fighting_empty
-bounds:266,2,64,64
+bounds:332,2,64,64
 hero_walking_left
-bounds:266,134,64,64
+bounds:332,134,64,64
 hero_walking_left_foot
 bounds:2,134,64,64
 hero_walking_right
-bounds:68,2,64,64
+bounds:134,68,64,64
 hero_walking_right_foot
-bounds:266,68,64,64
-sword
+bounds:332,68,64,64
+hole_in_floor
 bounds:200,134,64,64
+sword
+bounds:200,68,64,64

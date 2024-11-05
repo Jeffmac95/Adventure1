@@ -20,6 +20,8 @@ public class Main extends ApplicationAdapter {
     private DeadGoblin deadGoblin;
     private Goblin goblin;
     private Sword sword;
+    private Hole hole;
+    private Fire fire;
     private float deltaTime;
     private ButtonHandler buttonHandler;
 
@@ -33,7 +35,9 @@ public class Main extends ApplicationAdapter {
         goblin = new Goblin(atlas, new Vector2(96, 96), 32, new Rectangle(96, 96, 32, 32), 75, 10);
         deadGoblin = new DeadGoblin(atlas, new Vector2(96, 96), 32, new Rectangle(96, 96, 32, 32), 0, 0, goblin);
         sword = new Sword(atlas, new Vector2(192, 192),32, new Rectangle(192, 192, 32, 32), 2);
-        player = new Player(atlas, new Vector2(0,0), 32, new Rectangle(0, 0, 32, 32), goblin, 100, 25, sword);
+        hole = new Hole(atlas, new Vector2(608, 96), new Rectangle(608, 96, 32, 32),32);
+        player = new Player(atlas, new Vector2(0,0), 32, new Rectangle(0, 0, 32, 32), goblin, 100, 25, sword, hole);
+        fire = new Fire(atlas, new Vector2(256, 256), new Rectangle(256, 256, 32, 32), 32);
         buttonHandler = new ButtonHandler(player);
     }
 
@@ -58,8 +62,10 @@ public class Main extends ApplicationAdapter {
         goblin.draw(batch);
         deadGoblin.draw(batch);
         sword.draw(batch);
+        hole.draw(batch);
+        fire.draw(batch);
+        fire.render(deltaTime);
         player.draw(batch);
-        buttonHandler.font.draw(batch, "test", 100f, 0f);
         batch.end();
 
         if (buttonHandler.isDebug) {
@@ -68,6 +74,8 @@ public class Main extends ApplicationAdapter {
             renderer.rect(player.position.x, player.position.y, player.size, player.size);
             renderer.rect(goblin.position.x, goblin.position.y, goblin.size, goblin.size);
             renderer.rect(sword.position.x, sword.position.y, sword.size, sword.size);
+            renderer.rect(hole.position.x, hole.position.y, hole.size, hole.size);
+            renderer.rect(fire.position.x, fire.position.y, fire.size, fire.size);
             renderer.end();
         }
     }
@@ -79,5 +87,6 @@ public class Main extends ApplicationAdapter {
         renderer.dispose();
         buttonHandler.stage.dispose();
         buttonHandler.font.dispose();
+        player.inventory.clear();
     }
 }
