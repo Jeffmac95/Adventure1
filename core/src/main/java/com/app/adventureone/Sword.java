@@ -7,12 +7,18 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Sword extends Weapon {
 
+    public boolean isThere = true;
+
     public Sword(TextureAtlas atlas, Vector2 position, int size, Rectangle rect, int strength) {
         super(atlas, "sword", position, size, rect, strength);
     }
 
+    @Override
     public void draw(SpriteBatch batch) {
-        sprite.setPosition(position.x, position.y);
-        sprite.draw(batch);
+        if (isThere) {
+            sprite.setPosition(position.x, position.y);
+            sprite.draw(batch);
+        }
     }
+
 }

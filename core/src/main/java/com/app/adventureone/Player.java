@@ -112,7 +112,7 @@ public class Player extends Entity {
         if (rect.overlaps(sword.rect)) {
             if (!inventory.contains("Sword")) {
                 inventory.add("Sword");
-                sword.sprite.setAlpha(0);
+                sword.isThere = false;
             }
         }
 

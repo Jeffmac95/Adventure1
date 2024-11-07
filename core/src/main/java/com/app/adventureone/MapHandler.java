@@ -23,10 +23,14 @@ public class MapHandler {
     public final int maxColSize = 20; // 480x480
     private final int screenWidth = tileSize * maxColSize;
     private final int screenHeight = tileSize * maxRowSize;
+    public enum Level {
+        START,
+        AREATWO,
+    }
 
 
-    public MapHandler() {
-        tiledMap = new TmxMapLoader().load("map.tmx");
+    public MapHandler(Level level) {
+        loadMap(level);
         tmr = new OrthogonalTiledMapRenderer(tiledMap);
         tile = this.getTile(18, 2);
         if (tile.getId() == 154) {
@@ -43,6 +47,14 @@ public class MapHandler {
         viewport.update(screenWidth, screenHeight);
         tmr.setView((OrthographicCamera) viewport.getCamera());
         tmr.render();
+    }
+
+    public void loadMap(Level level) {
+        switch (level) {
+            case START:
+                tiledMap = new TmxMapLoader().load("map.tmx");
+                break;
+        }
     }
 
     public TiledMapTile getTile(int col, int row) {
