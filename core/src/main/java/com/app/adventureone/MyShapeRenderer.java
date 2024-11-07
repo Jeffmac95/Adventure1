@@ -19,7 +19,7 @@ public class MyShapeRenderer {
 //        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         float numRays = 50;
-        float rayLength = 100;
+        float rayLength = 200;
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(1f, 0, 0, 1f);

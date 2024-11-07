@@ -26,6 +26,7 @@ public class MapHandler {
         START,
         BASEMENT,
     }
+    public Level currentLevel;
 
 
     public MapHandler(Level level) {
@@ -49,6 +50,7 @@ public class MapHandler {
     }
 
     public void loadMap(Level level) {
+        currentLevel = level;
         switch (level) {
             case START:
                 tiledMap = new TmxMapLoader().load("map.tmx");
@@ -57,6 +59,8 @@ public class MapHandler {
                 tiledMap = new TmxMapLoader().load("map2.tmx");
                 break;
         }
+
+        tmr = new OrthogonalTiledMapRenderer(tiledMap);
     }
 
     public TiledMapTile getTile(int col, int row) {

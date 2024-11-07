@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.Map;
+
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
 
@@ -64,12 +66,14 @@ public class Main extends ApplicationAdapter {
 
 
         batch.begin();
-        goblin.draw(batch);
-        deadGoblin.draw(batch);
-        sword.draw(batch);
-        hole.draw(batch);
-        fire.draw(batch);
-        fire.render(deltaTime);
+        if (mapHandler.currentLevel == MapHandler.Level.START) {
+            goblin.draw(batch);
+            deadGoblin.draw(batch);
+            sword.draw(batch);
+            hole.draw(batch);
+            fire.draw(batch);
+            fire.render(deltaTime);
+        }
         player.draw(batch);
         batch.end();
 
