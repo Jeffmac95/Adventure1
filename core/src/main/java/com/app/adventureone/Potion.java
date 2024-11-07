@@ -7,13 +7,16 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Potion extends Asset {
 
+    public boolean isThere = true;
 
     public Potion(TextureAtlas atlas, Vector2 position, Rectangle rect, int size) {
         super(atlas, "potion", position, rect, size);
     }
 
     public void draw(SpriteBatch batch) {
-        sprite.setPosition(position.x, position.y);
-        sprite.draw(batch);
+        if (isThere) {
+            sprite.setPosition(position.x, position.y);
+            sprite.draw(batch);
+        }
     }
 }

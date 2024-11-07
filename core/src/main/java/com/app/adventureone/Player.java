@@ -24,6 +24,7 @@ public class Player extends Entity {
     private Sword sword;
     private Hole hole;
     private MapHandler mapHandler;
+    private Potion potion;
     public ArrayList<String> inventory;
     private Animation<TextureAtlas.AtlasRegion> walkLeftAnimation;
     private Animation<TextureAtlas.AtlasRegion> walkRightAnimation;
@@ -32,12 +33,13 @@ public class Player extends Entity {
     private Animation<TextureAtlas.AtlasRegion> fightingAnimation;
 
 
-    public Player(TextureAtlas atlas, Vector2 position, int size, Rectangle rect, Goblin goblin, int hp, int strength, Sword sword, Hole hole, MapHandler mapHandler) {
+    public Player(TextureAtlas atlas, Vector2 position, int size, Rectangle rect, Goblin goblin, int hp, int strength, Sword sword, Hole hole, MapHandler mapHandler, Potion potion) {
         super(atlas, "hero", position, size, rect, hp, strength);
         this.goblin = goblin;
         this.sword = sword;
         this.hole = hole;
         this.mapHandler = mapHandler;
+        this.potion = potion;
 
         inventory = new ArrayList<>();
         initAnimations();
@@ -155,6 +157,13 @@ public class Player extends Entity {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             mapHandler.loadMap(MapHandler.Level.BASEMENT);
         }
+
+        if (rect.overlaps(potion.rect)) {
+            if (!inventory.contains("Potion")) {
+                inventory.add("Potion");
+                potion.isThere = false;
+            }
+        }
     }
 
     public void battle() {
@@ -173,6 +182,14 @@ public class Player extends Entity {
             } else {
                 hp -= goblin.strength;
                 System.out.println("goblin did: " + goblin.strength + " damage. player hp remaining: " + hp);
+
+                if (hp <= 10) {
+                    if (inventory.contains("Potion")) {
+                        hp += 20;
+                        inventory.remove("Potion");
+                    }
+                }
+
                 if (hp <= 0) {
                     System.out.println("player died");
                     hp = 0;

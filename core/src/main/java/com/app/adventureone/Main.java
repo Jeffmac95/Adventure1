@@ -42,7 +42,7 @@ public class Main extends ApplicationAdapter {
         deadGoblin = new DeadGoblin(atlas, new Vector2(480, 288), 32, new Rectangle(480, 288, 32, 32), 0, 0, goblin, potion);
         hole = new Hole(atlas, new Vector2(608, 96), new Rectangle(608, 96, 32, 32),32);
         sword = new Sword(atlas, new Vector2(224, 256),32, new Rectangle(224, 256, 32, 32), 2);
-        player = new Player(atlas, new Vector2(0,0), 32, new Rectangle(0, 0, 32, 32), goblin, 100, 25, sword, hole, mapHandler);
+        player = new Player(atlas, new Vector2(0,0), 32, new Rectangle(0, 0, 32, 32), goblin, 100, 25, sword, hole, mapHandler, potion);
         fire = new Fire(atlas, new Vector2(256, 256), new Rectangle(256, 256, 32, 32), 32);
         buttonHandler = new ButtonHandler(player);
         shapeRenderer = new MyShapeRenderer(player);

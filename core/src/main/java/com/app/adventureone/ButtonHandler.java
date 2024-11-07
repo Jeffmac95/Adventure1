@@ -47,7 +47,7 @@ public class ButtonHandler {
 
         table.add(debugButton).width(100).height(50);
         table.add(inventoryButton).width(100).height(50);
-        table.add(inventoryLabel).width(100).height(50);
+        table.add(inventoryLabel).width(100).height(75);
 
         debugButton.addListener(new ChangeListener() {
             @Override
@@ -65,6 +65,12 @@ public class ButtonHandler {
                 if (isInventory) {
                     if (player.inventory.contains("Sword")) {
                         inventoryLabel.setText("Sword");
+                    }
+                    if (player.inventory.contains("Potion")) {
+                        inventoryLabel.setText("Potion");
+                    }
+                    if (player.inventory.contains("Sword") && player.inventory.contains("Potion")) {
+                        inventoryLabel.setText("Sword, \nPotion");
                     }
                 } else {
                     inventoryLabel.setText("");
