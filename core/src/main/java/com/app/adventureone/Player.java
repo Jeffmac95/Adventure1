@@ -23,6 +23,7 @@ public class Player extends Entity {
     private Goblin goblin;
     private Sword sword;
     private Hole hole;
+    private MapHandler mapHandler;
     public ArrayList<String> inventory;
     private Animation<TextureAtlas.AtlasRegion> walkLeftAnimation;
     private Animation<TextureAtlas.AtlasRegion> walkRightAnimation;
@@ -31,11 +32,12 @@ public class Player extends Entity {
     private Animation<TextureAtlas.AtlasRegion> fightingAnimation;
 
 
-    public Player(TextureAtlas atlas, Vector2 position, int size, Rectangle rect, Goblin goblin, int hp, int strength, Sword sword, Hole hole) {
+    public Player(TextureAtlas atlas, Vector2 position, int size, Rectangle rect, Goblin goblin, int hp, int strength, Sword sword, Hole hole, MapHandler mapHandler) {
         super(atlas, "hero", position, size, rect, hp, strength);
         this.goblin = goblin;
         this.sword = sword;
         this.hole = hole;
+        this.mapHandler = mapHandler;
 
         inventory = new ArrayList<>();
         initAnimations();
@@ -151,8 +153,7 @@ public class Player extends Entity {
         if (rect.overlaps(hole.rect)) {
             Gdx.gl.glClearColor(0, 0, 0, 1f);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            sword.sprite.setAlpha(0);
-            goblin.sprite.setAlpha(0);
+            mapHandler.loadMap(MapHandler.Level.BASEMENT);
         }
     }
 

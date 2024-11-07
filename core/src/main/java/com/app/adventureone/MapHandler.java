@@ -8,7 +8,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class MapHandler {
@@ -25,7 +24,7 @@ public class MapHandler {
     private final int screenHeight = tileSize * maxRowSize;
     public enum Level {
         START,
-        AREATWO,
+        BASEMENT,
     }
 
 
@@ -53,6 +52,9 @@ public class MapHandler {
         switch (level) {
             case START:
                 tiledMap = new TmxMapLoader().load("map.tmx");
+                break;
+            case BASEMENT:
+                tiledMap = new TmxMapLoader().load("map2.tmx");
                 break;
         }
     }

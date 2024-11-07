@@ -25,6 +25,9 @@ public class Main extends ApplicationAdapter {
     private float deltaTime;
     private ButtonHandler buttonHandler;
 
+    private MyShapeRenderer shapeRenderer;
+
+
     @Override
     public void create() {
 
@@ -36,9 +39,11 @@ public class Main extends ApplicationAdapter {
         deadGoblin = new DeadGoblin(atlas, new Vector2(96, 96), 32, new Rectangle(96, 96, 32, 32), 0, 0, goblin);
         hole = new Hole(atlas, new Vector2(608, 96), new Rectangle(608, 96, 32, 32),32);
         sword = new Sword(atlas, new Vector2(192, 192),32, new Rectangle(192, 192, 32, 32), 2);
-        player = new Player(atlas, new Vector2(0,0), 32, new Rectangle(0, 0, 32, 32), goblin, 100, 25, sword, hole);
+        player = new Player(atlas, new Vector2(0,0), 32, new Rectangle(0, 0, 32, 32), goblin, 100, 25, sword, hole, mapHandler);
         fire = new Fire(atlas, new Vector2(256, 256), new Rectangle(256, 256, 32, 32), 32);
         buttonHandler = new ButtonHandler(player);
+
+        shapeRenderer = new MyShapeRenderer(player);
     }
 
     @Override
@@ -68,6 +73,8 @@ public class Main extends ApplicationAdapter {
         player.draw(batch);
         batch.end();
 
+
+
         if (buttonHandler.isDebug) {
             renderer.begin(ShapeRenderer.ShapeType.Line);
             renderer.setColor(Color.RED);
@@ -77,6 +84,7 @@ public class Main extends ApplicationAdapter {
             renderer.rect(hole.position.x, hole.position.y, hole.size, hole.size);
             renderer.rect(fire.position.x, fire.position.y, fire.size, fire.size);
             renderer.end();
+            shapeRenderer.render();
         }
     }
 
@@ -85,6 +93,7 @@ public class Main extends ApplicationAdapter {
         batch.dispose();
         atlas.dispose();
         renderer.dispose();
+        shapeRenderer.dispose();
         buttonHandler.stage.dispose();
         buttonHandler.font.dispose();
         player.inventory.clear();
