@@ -3,58 +3,60 @@ size:512,256
 repeat:none
 fire
 index: 0
-bounds:200,2,64,64
+bounds:200,36,64,64
 fire
 index: 1
-bounds:398,68,64,64
+bounds:398,102,64,64
 fire
 index: 2
-bounds:134,68,64,64
+bounds:134,102,64,64
 goblin
-bounds:200,68,64,64
+bounds:200,102,64,64
 goblin_dead
-bounds:332,134,64,64
+bounds:332,168,64,64
 hero
-bounds:2,68,64,64
+bounds:2,102,64,64
 hero_backwards
-bounds:68,2,64,64
+bounds:68,36,64,64
 hero_backwards_walking
 index: 0
-bounds:134,134,64,64
+bounds:134,168,64,64
 hero_backwards_walking
 index: 1
-bounds:68,134,64,64
+bounds:68,168,64,64
 hero_facing_left
-bounds:266,68,64,64
+bounds:266,102,64,64
 hero_walking_left
 index: 1
-bounds:266,68,64,64
+bounds:266,102,64,64
 hero_walking_right
 index: 1
-bounds:68,68,64,64
+bounds:68,102,64,64
 hero_facing_right
-bounds:68,68,64,64
-hero_fighting
-index: 1
-bounds:2,2,64,64
+bounds:68,102,64,64
 hero_fighting
 index: 0
-bounds:398,134,64,64
+bounds:2,36,64,64
+hero_fighting
+index: 1
+bounds:398,168,64,64
 hero_fighting_empty
-bounds:332,2,64,64
+bounds:332,36,64,64
 hero_walking_left
 index: 0
-bounds:266,2,64,64
+bounds:266,36,64,64
 hero_walking_
 index: 0
-bounds:2,134,64,64
+bounds:2,168,64,64
 hero_walking_right
 index: 0
-bounds:200,134,64,64
+bounds:200,168,64,64
 hero_walking_
 index: 1
-bounds:332,68,64,64
+bounds:332,102,64,64
 hole_in_floor
-bounds:134,2,64,64
+bounds:134,36,64,64
+potion
+bounds:2,2,32,32
 sword
-bounds:266,134,64,64
+bounds:266,168,64,64
