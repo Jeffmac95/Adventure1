@@ -33,7 +33,7 @@ public class MapHandler {
         loadMap(level);
         tmr = new OrthogonalTiledMapRenderer(tiledMap);
         tile = this.getTile(18, 2);
-        if (tile.getId() == 154) {
+        if (tile.getId() == 153) {
             System.out.println("wata");
         }
         camera = new OrthographicCamera();

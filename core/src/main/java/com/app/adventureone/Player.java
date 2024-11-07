@@ -3,8 +3,10 @@ package com.app.adventureone;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -22,6 +24,11 @@ public class Player extends Entity {
     private Sword sword;
     private Hole hole;
     public ArrayList<String> inventory;
+    private Animation<TextureAtlas.AtlasRegion> walkLeftAnimation;
+    private Animation<TextureAtlas.AtlasRegion> walkRightAnimation;
+    private Animation<TextureAtlas.AtlasRegion> walkBackwardsAnimation;
+    private Animation<TextureAtlas.AtlasRegion> walkForwardsAnimation;
+    private Animation<TextureAtlas.AtlasRegion> fightingAnimation;
 
 
     public Player(TextureAtlas atlas, Vector2 position, int size, Rectangle rect, Goblin goblin, int hp, int strength, Sword sword, Hole hole) {
@@ -31,6 +38,7 @@ public class Player extends Entity {
         this.hole = hole;
 
         inventory = new ArrayList<>();
+        initAnimations();
     }
 
     @Override
@@ -39,31 +47,54 @@ public class Player extends Entity {
         sprite.draw(batch);
     }
 
-    public void handleKeys() {
+    public void initAnimations() {
+        walkLeftAnimation = new Animation<>(0.2f, atlas.findRegions("hero_walking_left"));
+        walkLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        walkLeftAnimation.getKeyFrame(0);
+        walkRightAnimation = new Animation<>(0.2f, atlas.findRegions("hero_walking_right"));
+        walkRightAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        walkRightAnimation.getKeyFrame(0);
+        walkBackwardsAnimation = new Animation<>(0.2f, atlas.findRegions("hero_backwards_walking"));
+        walkBackwardsAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        walkBackwardsAnimation.getKeyFrame(0);
+        walkForwardsAnimation = new Animation<>(0.2f, atlas.findRegions("hero_walking_"));
+        walkForwardsAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        walkForwardsAnimation.getKeyFrame(0);
+        fightingAnimation = new Animation<>(0.2f, atlas.findRegions("hero_fighting"));
+        fightingAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        fightingAnimation.getKeyFrame(0);
+    }
+
+
+    public void handleKeys(float deltaTime) {
 
         boolean isMoving = false;
 
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
-            position.y += tileSize;
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            position.y++;
             direction = "up";
             isMoving = true;
-            sprite.setRegion(atlas.findRegion("hero_backwards_walking_right"));
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.A)) {
-            position.x -= tileSize;
+            TextureRegion region = walkBackwardsAnimation.getKeyFrame(deltaTime, true);
+            sprite.setRegion(region);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            position.x--;
             direction = "left";
             isMoving = true;
-            sprite.setRegion(atlas.findRegion("hero_walking_left"));
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
-            position.y -= tileSize;
+            TextureRegion region = walkLeftAnimation.getKeyFrame(deltaTime, true);
+            sprite.setRegion(region);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            position.y--;
             direction = "down";
             isMoving = true;
-            sprite.setRegion(atlas.findRegion("hero_walking_right_foot"));
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
-            position.x += tileSize;
+            TextureRegion region = walkForwardsAnimation.getKeyFrame(deltaTime, true);
+            sprite.setRegion(region);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            position.x++;
             direction = "right";
             isMoving = true;
-            sprite.setRegion(atlas.findRegion("hero_walking_right"));
+            TextureRegion region = walkRightAnimation.getKeyFrame(deltaTime, true);
+            sprite.setRegion(region);
         }
 
         rect.setPosition(position.x, position.y);
@@ -99,11 +130,12 @@ public class Player extends Entity {
         }
     }
 
-    public void checkCollision(TextureAtlas atlas) {
+    public void checkCollision(TextureAtlas atlas, float deltaTime) {
         if (rect.overlaps(goblin.rect)) {
             battle();
             if (inventory.contains("Sword")) {
-                sprite.setRegion(atlas.findRegion("hero_fighting"));
+                TextureRegion region = fightingAnimation.getKeyFrame(deltaTime, true);
+                sprite.setRegion(region);
             } else {
                 sprite.setRegion(atlas.findRegion("hero_fighting_empty"));
             }

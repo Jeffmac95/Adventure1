@@ -52,9 +52,9 @@ public class Main extends ApplicationAdapter {
         mapHandler.render();
         buttonHandler.render();
 
-        player.handleKeys();
+        player.handleKeys(deltaTime);
         player.handleBounds();
-        player.checkCollision(atlas);
+        player.checkCollision(atlas, deltaTime);
 
 
 
