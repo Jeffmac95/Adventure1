@@ -25,6 +25,7 @@ public class Player extends Entity {
     private Hole hole;
     private MapHandler mapHandler;
     private Potion potion;
+    private Boss boss;
     public ArrayList<String> inventory;
     private Animation<TextureAtlas.AtlasRegion> walkLeftAnimation;
     private Animation<TextureAtlas.AtlasRegion> walkRightAnimation;
@@ -33,13 +34,14 @@ public class Player extends Entity {
     private Animation<TextureAtlas.AtlasRegion> fightingAnimation;
 
 
-    public Player(TextureAtlas atlas, Vector2 position, int size, Rectangle rect, Goblin goblin, int hp, int strength, Sword sword, Hole hole, MapHandler mapHandler, Potion potion) {
+    public Player(TextureAtlas atlas, Vector2 position, int size, Rectangle rect, Goblin goblin, int hp, int strength, Sword sword, Hole hole, MapHandler mapHandler, Potion potion, Boss boss) {
         super(atlas, "hero", position, size, rect, hp, strength);
         this.goblin = goblin;
         this.sword = sword;
         this.hole = hole;
         this.mapHandler = mapHandler;
         this.potion = potion;
+        this.boss = boss;
 
         inventory = new ArrayList<>();
         initAnimations();
@@ -136,7 +138,7 @@ public class Player extends Entity {
 
     public void checkCollision(TextureAtlas atlas, float deltaTime) {
         if (rect.overlaps(goblin.rect)) {
-            battle();
+            battle(goblin);
             if (inventory.contains("Sword")) {
                 TextureRegion region = fightingAnimation.getKeyFrame(deltaTime, true);
                 sprite.setRegion(region);
@@ -159,24 +161,25 @@ public class Player extends Entity {
         }
 
         if (rect.overlaps(potion.rect)) {
-            if (!inventory.contains("Potion")) {
                 inventory.add("Potion");
                 potion.isThere = false;
-            }
+        }
+
+        if (rect.overlaps(boss.rect)) {
+
         }
     }
 
-    public void battle() {
+    public void battle(Entity enemy) {
         char attackTurn = 'p';
 
-        while (hp > 0 && goblin.hp > 0) {
+        while (hp > 0 && enemy.hp > 0) {
             if (attackTurn == 'p') {
-                goblin.hp -= strength;
-                System.out.println("player did: " + strength + " damage. goblin hp remaining: " + goblin.hp);
-                if (goblin.hp <= 0) {
-                    System.out.println("goblin died");
-                    goblin.hp = 0;
-                    System.out.println("goblin alive? : " + goblin.isAlive());
+                enemy.hp -= strength;
+                System.out.println("Player did: " + strength + " damage. Enemy hp remaining: " + enemy.hp);
+                if (enemy.hp <= 0) {
+                    System.out.println("Enemy died");
+                    enemy.hp = 0;
                 }
                 attackTurn = 'g';
             } else {
@@ -189,12 +192,12 @@ public class Player extends Entity {
                     }
                 }
 
-                hp -= goblin.strength;
-                System.out.println("goblin did: " + goblin.strength + " damage. player hp remaining: " + hp);
+                hp -= enemy.strength;
+                System.out.println("Enemy did: " + enemy.strength + " damage. Player hp remaining: " + hp);
 
                 if (hp <= 0) {
-                    System.out.println("player died");
                     hp = 0;
+                    System.out.println("player died");
                 }
                 attackTurn = 'p';
             }
