@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -104,6 +105,7 @@ public class Player extends Entity {
         }
 
         rect.setPosition(position.x, position.y);
+        checkTile();
 
         if (!isMoving) {
             switch (direction) {
@@ -150,6 +152,7 @@ public class Player extends Entity {
         if (rect.overlaps(sword.rect)) {
             if (!inventory.contains("Sword")) {
                 inventory.add("Sword");
+                strength += 10;
                 sword.isThere = false;
             }
         }
@@ -166,7 +169,13 @@ public class Player extends Entity {
         }
 
         if (rect.overlaps(boss.rect)) {
-
+            battle(boss);
+            if (inventory.contains("Sword")) {
+                TextureRegion region = fightingAnimation.getKeyFrame(deltaTime, true);
+                sprite.setRegion(region);
+            } else {
+                sprite.setRegion(atlas.findRegion("hero_fighting_empty"));
+            }
         }
     }
 
@@ -202,5 +211,20 @@ public class Player extends Entity {
                 attackTurn = 'p';
             }
         }
+    }
+
+    public void checkTile() {
+        int tileX = (int) position.x / mapHandler.tileSize;
+        int tileY = (int) position.y / mapHandler.tileSize;
+
+        TiledMapTile tile = mapHandler.getTile(tileX, tileY);
+        if (tile.getId() == 40) {
+            hp -= 0.10f;
+            System.out.println("Get off the hot rocks! Player losing hp!" + hp);
+        }
+    }
+
+    public boolean isAlive() {
+        return hp > 0;
     }
 }

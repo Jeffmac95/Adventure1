@@ -32,10 +32,6 @@ public class MapHandler {
     public MapHandler(Level level) {
         loadMap(level);
         tmr = new OrthogonalTiledMapRenderer(tiledMap);
-        tile = this.getTile(18, 2);
-        if (tile.getId() == 153) {
-            System.out.println("wata");
-        }
         camera = new OrthographicCamera();
         camera.setToOrtho(false, screenWidth, screenHeight);
         viewport = new FitViewport(screenWidth, screenHeight, camera);
