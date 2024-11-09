@@ -24,6 +24,7 @@ public class Main extends ApplicationAdapter {
     private Sword sword;
     private Hole hole;
     private Fire fire;
+    private Boss boss;
     private float deltaTime;
     private ButtonHandler buttonHandler;
     private MyShapeRenderer shapeRenderer;
@@ -44,6 +45,7 @@ public class Main extends ApplicationAdapter {
         sword = new Sword(atlas, new Vector2(224, 256),32, new Rectangle(224, 256, 32, 32), 2);
         player = new Player(atlas, new Vector2(0,0), 32, new Rectangle(0, 0, 32, 32), goblin, 100, 25, sword, hole, mapHandler, potion);
         fire = new Fire(atlas, new Vector2(256, 256), new Rectangle(256, 256, 32, 32), 32);
+        boss = new Boss(atlas, new Vector2(100, 224), 32, new Rectangle(100, 224, 32, 32), 100, 25);
         buttonHandler = new ButtonHandler(player);
         shapeRenderer = new MyShapeRenderer(player);
     }
@@ -73,6 +75,8 @@ public class Main extends ApplicationAdapter {
             hole.draw(batch);
             fire.draw(batch);
             fire.render(deltaTime);
+        } else if (mapHandler.currentLevel == MapHandler.Level.BASEMENT) {
+            boss.draw(batch);
         }
         player.draw(batch);
         batch.end();
@@ -88,6 +92,7 @@ public class Main extends ApplicationAdapter {
             renderer.rect(potion.position.x, potion.position.y, potion.size, potion.size);
             renderer.rect(hole.position.x, hole.position.y, hole.size, hole.size);
             renderer.rect(fire.position.x, fire.position.y, fire.size, fire.size);
+            renderer.rect(boss.position.x, boss.position.y, boss.size, boss.size);
             renderer.end();
             shapeRenderer.render();
         }

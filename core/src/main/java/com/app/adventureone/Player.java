@@ -180,15 +180,17 @@ public class Player extends Entity {
                 }
                 attackTurn = 'g';
             } else {
-                hp -= goblin.strength;
-                System.out.println("goblin did: " + goblin.strength + " damage. player hp remaining: " + hp);
 
-                if (hp <= 10) {
+                if (hp <= 90) {
                     if (inventory.contains("Potion")) {
                         hp += 20;
+                        System.out.println("Player drank potion. Player's hp is now: " + hp);
                         inventory.remove("Potion");
                     }
                 }
+
+                hp -= goblin.strength;
+                System.out.println("goblin did: " + goblin.strength + " damage. player hp remaining: " + hp);
 
                 if (hp <= 0) {
                     System.out.println("player died");
