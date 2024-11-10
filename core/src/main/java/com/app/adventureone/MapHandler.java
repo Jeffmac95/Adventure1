@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class MapHandler {
@@ -66,5 +67,14 @@ public class MapHandler {
             return cell.getTile();
         }
         return null;
+    }
+
+    public boolean isInvalidTile(Vector2 position) {
+        Vector2 firePosition = new Vector2(100, 224);
+        if (position.dst(firePosition) <= 40) {
+//            System.out.println("true");
+            return true;
+        }
+        return false;
     }
 }

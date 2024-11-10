@@ -27,6 +27,7 @@ public class Player extends Entity {
     private MapHandler mapHandler;
     private Potion potion;
     private Boss boss;
+    private Fire fire;
     public ArrayList<String> inventory;
     private Animation<TextureAtlas.AtlasRegion> walkLeftAnimation;
     private Animation<TextureAtlas.AtlasRegion> walkRightAnimation;
@@ -35,7 +36,7 @@ public class Player extends Entity {
     private Animation<TextureAtlas.AtlasRegion> fightingAnimation;
 
 
-    public Player(TextureAtlas atlas, Vector2 position, int size, Rectangle rect, Goblin goblin, int hp, int strength, Sword sword, Hole hole, MapHandler mapHandler, Potion potion, Boss boss) {
+    public Player(TextureAtlas atlas, Vector2 position, int size, Rectangle rect, Goblin goblin, int hp, int strength, Sword sword, Hole hole, MapHandler mapHandler, Potion potion, Boss boss, Fire fire) {
         super(atlas, "hero", position, size, rect, hp, strength);
         this.goblin = goblin;
         this.sword = sword;
@@ -43,6 +44,7 @@ public class Player extends Entity {
         this.mapHandler = mapHandler;
         this.potion = potion;
         this.boss = boss;
+        this.fire = fire;
 
         inventory = new ArrayList<>();
         initAnimations();
@@ -76,33 +78,38 @@ public class Player extends Entity {
     public void handleKeys(float deltaTime) {
 
         boolean isMoving = false;
+        Vector2 nextPosition = new Vector2(position);
 
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                nextPosition.y++;
+                direction = "up";
+                isMoving = true;
+                TextureRegion region = walkBackwardsAnimation.getKeyFrame(deltaTime, true);
+                sprite.setRegion(region);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                nextPosition.x--;
+                direction = "left";
+                isMoving = true;
+                TextureRegion region = walkLeftAnimation.getKeyFrame(deltaTime, true);
+                sprite.setRegion(region);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                nextPosition.y--;
+                direction = "down";
+                isMoving = true;
+                TextureRegion region = walkForwardsAnimation.getKeyFrame(deltaTime, true);
+                sprite.setRegion(region);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                nextPosition.x++;
+                direction = "right";
+                isMoving = true;
+                TextureRegion region = walkRightAnimation.getKeyFrame(deltaTime, true);
+                sprite.setRegion(region);
+            }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            position.y++;
-            direction = "up";
-            isMoving = true;
-            TextureRegion region = walkBackwardsAnimation.getKeyFrame(deltaTime, true);
-            sprite.setRegion(region);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            position.x--;
-            direction = "left";
-            isMoving = true;
-            TextureRegion region = walkLeftAnimation.getKeyFrame(deltaTime, true);
-            sprite.setRegion(region);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            position.y--;
-            direction = "down";
-            isMoving = true;
-            TextureRegion region = walkForwardsAnimation.getKeyFrame(deltaTime, true);
-            sprite.setRegion(region);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            position.x++;
-            direction = "right";
-            isMoving = true;
-            TextureRegion region = walkRightAnimation.getKeyFrame(deltaTime, true);
-            sprite.setRegion(region);
-        }
+            if (!mapHandler.isInvalidTile(nextPosition)) {
+                position.set(nextPosition);
+            }
+
 
         rect.setPosition(position.x, position.y);
         checkTile();
@@ -136,6 +143,7 @@ public class Player extends Entity {
         } else if (position.y > screenHeight - size) {
             position.y = screenHeight - size;
         }
+
     }
 
     public void checkCollision(TextureAtlas atlas, float deltaTime) {
@@ -222,9 +230,5 @@ public class Player extends Entity {
             hp -= 0.10f;
             System.out.println("Get off the hot rocks! Player losing hp!" + hp);
         }
-    }
-
-    public boolean isAlive() {
-        return hp > 0;
     }
 }

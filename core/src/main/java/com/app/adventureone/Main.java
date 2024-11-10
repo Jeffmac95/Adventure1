@@ -43,9 +43,9 @@ public class Main extends ApplicationAdapter {
         deadGoblin = new DeadGoblin(atlas, new Vector2(480, 288), 32, new Rectangle(480, 288, 32, 32), 0, 0, goblin, potion);
         hole = new Hole(atlas, new Vector2(608, 96), new Rectangle(608, 96, 32, 32),32);
         sword = new Sword(atlas, new Vector2(224, 256),32, new Rectangle(224, 256, 32, 32), 2);
-        boss = new Boss(atlas, new Vector2(100, 224), 32, new Rectangle(100, 224, 32, 32), 100, 25);
-        player = new Player(atlas, new Vector2(0,0), 32, new Rectangle(0, 0, 32, 32), goblin, 100, 25, sword, hole, mapHandler, potion, boss);
-        fire = new Fire(atlas, new Vector2(256, 256), new Rectangle(256, 256, 32, 32), 32);
+        fire = new Fire(atlas, new Vector2(100, 224), new Rectangle(100, 224, 32, 32), 32);
+        boss = new Boss(atlas, new Vector2(100, 224), 32, new Rectangle(100, 224, 32, 32), 150, 25);
+        player = new Player(atlas, new Vector2(0,0), 32, new Rectangle(0, 0, 32, 32), goblin, 100, 25, sword, hole, mapHandler, potion, boss, fire);
         buttonHandler = new ButtonHandler(player);
         shapeRenderer = new MyShapeRenderer(player);
     }
@@ -66,18 +66,17 @@ public class Main extends ApplicationAdapter {
         player.checkCollision(atlas, deltaTime);
 
 
-
         batch.begin();
         if (mapHandler.currentLevel == MapHandler.Level.START) {
             goblin.draw(batch);
             deadGoblin.draw(batch);
             sword.draw(batch);
             hole.draw(batch);
-            fire.draw(batch);
-            fire.render(deltaTime);
         } else if (mapHandler.currentLevel == MapHandler.Level.BASEMENT) {
             boss.draw(batch);
         }
+        fire.draw(batch);
+        fire.render(deltaTime);
         player.draw(batch);
         batch.end();
 
@@ -86,13 +85,16 @@ public class Main extends ApplicationAdapter {
         if (buttonHandler.isDebug) {
             renderer.begin(ShapeRenderer.ShapeType.Line);
             renderer.setColor(Color.RED);
-            renderer.rect(player.position.x, player.position.y, player.size, player.size);
-            renderer.rect(goblin.position.x, goblin.position.y, goblin.size, goblin.size);
-            renderer.rect(sword.position.x, sword.position.y, sword.size, sword.size);
-            renderer.rect(potion.position.x, potion.position.y, potion.size, potion.size);
-            renderer.rect(hole.position.x, hole.position.y, hole.size, hole.size);
-            renderer.rect(fire.position.x, fire.position.y, fire.size, fire.size);
-            renderer.rect(boss.position.x, boss.position.y, boss.size, boss.size);
+            if (mapHandler.currentLevel == MapHandler.Level.START) {
+                renderer.rect(player.position.x, player.position.y, player.size, player.size);
+                renderer.rect(goblin.position.x, goblin.position.y, goblin.size, goblin.size);
+                renderer.rect(sword.position.x, sword.position.y, sword.size, sword.size);
+                renderer.rect(potion.position.x, potion.position.y, potion.size, potion.size);
+                renderer.rect(hole.position.x, hole.position.y, hole.size, hole.size);
+                renderer.rect(fire.position.x, fire.position.y, fire.size, fire.size);
+            } else if (mapHandler.currentLevel == MapHandler.Level.BASEMENT) {
+                renderer.rect(boss.position.x, boss.position.y, boss.size, boss.size);
+            }
             renderer.end();
             shapeRenderer.render();
         }
